@@ -1,10 +1,12 @@
 from subprocess import check_output
 import time
 import datetime
+import sys
 
 if __name__ == '__main__':
 
-  resultsPath = "speedResults.csv"
+  # get the path to save the results
+  resultsPath = sys.argv[1]
 
   # get data from speed-test server
   try:
@@ -16,14 +18,14 @@ if __name__ == '__main__':
     results = {}
     for string in strings:
       splits = string.split(" ")
+      value = min(float(splits[1]), 500)
       results[splits[0].lower()] = {
-        "value": float(splits[1]),
-        "unit": splits[2]}
+        "value": value}
 
     results["ts"] = time.time() # get timestamp
 
     # ts, ping.value, ping.unit, download.value, download.unit, upload.value, upload.unit
-    stringResults = "%s,%s,%s,%s,%s,%s,%s\n" % (results["ts"], results["ping"]["value"], results["ping"]["unit"], results["download"]["value"], results["download"]["unit"], results["upload"]["value"], results["upload"]["unit"])
+    stringResults = "%s,%s,%s,%s\n" % (results["ts"], results["ping"]["value"], results["download"]["value"], results["upload"]["value"])
 
     # save results in a file
     with open(resultsPath, "a") as myfile:

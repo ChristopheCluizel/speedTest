@@ -23,8 +23,16 @@
 
             rangeSelector : {
               buttons: [{
+                      type: 'minute',
+                      count: 60, // show 1 hour
+                      text: 'Hour',
+                      dataGrouping: {
+                          forced: true,
+                          units: [['minute', [5]]] // group by 5 minutes
+                      }
+                  },{
                       type: 'day',
-                      count: 1, // show only 1 day
+                      count: 1, // show 1 day
                       text: 'Day',
                       dataGrouping: {
                           forced: true,
@@ -36,14 +44,22 @@
                       text: '3 Days',
                       dataGrouping: {
                           forced: true,
-                          units: [['minute', [60]]]
+                          units: [['minute', [60]]] // group by hour
+                      }
+                  },{
+                      type: 'week',
+                      count: 1, // show 1 week
+                      text: 'Week',
+                      dataGrouping: {
+                          forced: true,
+                          units: [['minute', [60]]] // group by hour
                       }
                   }, {
                       type: 'all',
                       text: 'All',
                       dataGrouping: {
                           forced: true,
-                          units: [['minute', [60]]]
+                          units: [['minute', [60]]] // group by hour
                       }
                   }],
               buttonTheme: {
@@ -96,8 +112,8 @@
           $.each(lines, function (lineNo, line) {
             var items = line.split(',');
             seriesData[0].push([parseInt(items[0])*1000, parseFloat(items[1])]);
-            seriesData[1].push([parseInt(items[0])*1000, parseFloat(items[3])]);
-            seriesData[2].push([parseInt(items[0])*1000, parseFloat(items[5])]);
+            seriesData[1].push([parseInt(items[0])*1000, parseFloat(items[2])]);
+            seriesData[2].push([parseInt(items[0])*1000, parseFloat(items[3])]);
           });
 
         $.each(names, function (i, name) {
